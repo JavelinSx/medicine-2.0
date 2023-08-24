@@ -1,0 +1,12 @@
+.form-auth {
+  max-width: 585px;
+  border-radius: 5%;
+  @include box-shadow-center();
+  animation: box-shadow-glow 1s ease-in-out infinite alternate;
+}
+.form-auth__button-submit {
+  height: 48px;
+}
+.form-auth__label {
+  border-radius: 5%;
+}

@@ -1,0 +1,30 @@
+$background-color: #2f4454;
+$primary-color: #376e6f;
+$secondary-color: #1c3334;
+
+@keyframes box-shadow-glow {
+  from {
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(253, 253, 253, 0.3);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(253, 253, 253, 0.3);
+    box-shadow: 0px 0px 20px 0px rgba(253, 253, 253, 0.3);
+  }
+  to {
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(253, 253, 253, 0.3);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(253, 253, 253, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(253, 253, 253, 0.3);
+  }
+}
+
+@mixin container-center-fullVW {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+@mixin box-shadow-center {
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(253, 253, 253, 0.3);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(253, 253, 253, 0.3);
+  box-shadow: 0px 0px 20px 0px rgba(253, 253, 253, 0.3);
+}

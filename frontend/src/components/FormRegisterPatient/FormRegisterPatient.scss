@@ -1,0 +1,13 @@
+.form-register__label {
+  border-radius: 5%;
+}
+.form-register__button-register {
+  height: 48px;
+}
+.form-register__select-option {
+  :hover {
+    cursor: pointer;
+  }
+  height: 48px;
+  max-width: 200px;
+}

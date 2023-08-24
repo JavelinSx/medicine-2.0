@@ -1,13 +1,30 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import '~bootstrap/scss/bootstrap';
+@import './styles/variables.scss';
+@import './fonts/fonts';
+
+#root {
+  background-color: $background-color;
+  height: 100vh;
+  width: 100vw;
+}
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+input,
+label,
+button,
+span {
+  font-family: 'Lato-light', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.form-floating > label {
+  transition: 0.3s;
 }
+
+@import './components/App/App.scss';
+@import './components/FormAuth/FormAuth.scss';
+@import './components/FormRegisterPatient/FormRegisterPatient.scss';
+@import './components/Select//Select.scss';
