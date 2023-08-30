@@ -22,7 +22,7 @@ export const fetchAuthPatient = createAsyncThunk('auth/patient', async (data: Au
   return MainApi.loginPatient(data);
 });
 
-export const fetchRegisterPatient = createAsyncThunk('register/patient', async (data: RegisterPatient) => {
+export const fetchRegisterPatient = createAsyncThunk('register/patient', async (data: any) => {
   return MainApi.registerPatient(data);
 });
 

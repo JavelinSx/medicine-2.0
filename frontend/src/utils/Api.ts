@@ -27,7 +27,7 @@ export class Api {
     });
   }
 
-  registerPatient(data: RegisterPatient) {
+  registerPatient(data: any) {
     return this._request({
       url: '/patient/register',
       options: {
