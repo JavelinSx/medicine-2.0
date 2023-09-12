@@ -5,7 +5,7 @@ const patientRegisterValidation = {
         surName: Joi.string().min(2).max(30),
         name: Joi.string().min(2).max(30),
         middleName: Joi.string().min(2).max(30),
-        gender: Joi.string(),
+        gender: Joi.number(),
         dateBirthday: Joi.string(),
         role: Joi.string(),
         login: Joi.string().required().min(4).max(16),
@@ -18,7 +18,7 @@ const patientUpdateValidation = {
         surName: Joi.string().min(2).max(30),
         name: Joi.string().min(2).max(30),
         middleName: Joi.string().min(2).max(30),
-        gender: Joi.string(),
+        gender: Joi.number(),
         dateBirthday: Joi.string(),
     })
 }
@@ -35,7 +35,7 @@ const patientAuthValidation = {
         surName: Joi.string().min(2).max(30),
         name: Joi.string().min(2).max(30),
         middleName: Joi.string().min(2).max(30),
-        gender: Joi.string(),
+        gender: Joi.number(),
         dateBirthday: Joi.string(),
         role: Joi.string(),
     })

@@ -1,23 +1,27 @@
 import React, { FC, useEffect, useState } from 'react';
 import { OptionSelectElem } from '../../utils/constant';
+import {InputSelect} from '../Input/Input';
 
 interface SelectProps {
+  name: string;
   labelTitle: string;
-  defaultSelect: number;
+  currentSelect?: number;
   optionsSelect: OptionSelectElem[];
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Select: FC<SelectProps> = ({ labelTitle, optionsSelect, defaultSelect, onChange }) => {
-  const [select, setSelect] = useState(defaultSelect);
+const Select: FC<SelectProps> = ({name, labelTitle, optionsSelect, currentSelect=1, onChangeSelect }) => {
+  const [select, setSelect] = useState(currentSelect);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    console.log(select)
     const event = {
-      target: { name: 'gender', value: optionsSelect[select].gender },
+      target: { name: 'gender', value: select.toString() },
     } as React.ChangeEvent<HTMLInputElement>;
-    onChange(event);
-  }, [select]);
+    onChangeSelect(event);
+  },[onChangeSelect, select])
+
 
   const renderOptionsElem = () => {
     return (
@@ -33,8 +37,9 @@ const Select: FC<SelectProps> = ({ labelTitle, optionsSelect, defaultSelect, onC
 
   return (
     <div className='mb-3 form-select' onClick={() => setOpen(!open)}>
-      <span className='select-label'>{labelTitle}</span>
-      <span className='select-value'>{optionsSelect[select].label}</span>
+      <label className='select-label'>{labelTitle}</label>
+      <InputSelect classInputSelect='select-value' type='text' label='' name={name} value={optionsSelect[select].label} onChange={onChangeSelect}/>
+      {/* <input className='select-value' value={optionsSelect[select].label} /> */}
       {open ? renderOptionsElem() : null}
     </div>
   );
