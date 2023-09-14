@@ -5,7 +5,6 @@
   align-items: center;
   position: relative;
   color: $label-input-color;
-  z-index: 3;
   justify-content: space-between;
   &:hover {
     cursor: pointer;
@@ -24,6 +23,15 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border: 1px solid #6c757d;
+  z-index: 105;
+  pointer-events: none;
+  padding-inline-start: 0;
+  opacity: 0;
+  transition: opacity .5s;
+}
+.form-select__container-list-show{
+  pointer-events:all;
+  opacity: 1;
 }
 .select-label {
   min-width: 50px;
@@ -49,6 +57,7 @@
 
 .select-span-item {
   height: 48px;
+  color: black;
   border-bottom: 1px solid $secondary;
   display: flex;
   align-items: center;
@@ -57,6 +66,7 @@
   transition: background-color 0.2s;
   border-bottom-left-radius: 0.4rem;
   border-bottom-right-radius: 0.4rem;
+  visibility: inherit;
   &:last-child {
     border: none;
   }

@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../app/hooks';
 import { fetchRegisterPatient } from '../../features/authPatient';
 import {Input} from '../Input/Input';
 import { patternDate, patternCustomText, patternLogin, patternPassword } from '../../utils/constant';
+import {inputBioHelp, inputLoginHelp, inputPasswordHelp} from '../../utils/constant'
 import {
   Formik,
   FormikHelpers,
@@ -47,12 +48,11 @@ const FormRegisterPatient: FC<FormRegisterPatientProps> = () => {
 
   return (
     <>
-    
       <Form className='form-register container-fluid' onSubmit={submitForm}>
         <Form.Group className='p-3 pb-5 pt-5'>
-          <Input type='text' name='surName' label={'Фамилия'} onChange={handleValidInput}/>
-          <Input type='text' name='name' label={'Имя'} onChange={handleValidInput}/>
-          <Input type='text' name='middleName' label={'Отчество'} onChange={handleValidInput}/>
+          <Input type='text' name='surName' label={'Фамилия'} onChange={handleValidInput} textHelp={inputBioHelp}/>
+          <Input type='text' name='name' label={'Имя'} onChange={handleValidInput} textHelp={inputBioHelp}/>
+          <Input type='text' name='middleName' label={'Отчество'} onChange={handleValidInput} textHelp={inputBioHelp}/>
 
           <Select
             name='gender'
@@ -62,8 +62,8 @@ const FormRegisterPatient: FC<FormRegisterPatientProps> = () => {
           />
 
           <Input type='date' name='dateBirthday' label={'Дата рождения'} onChange={handleValidInput}/>
-          <Input type='text' name='login' label={'Логин'} onChange={handleValidInput}/>
-          <Input type='password' name='password' label={'Пароль'} onChange={handleValidInput}/>
+          <Input type='text' name='login' label={'Логин'} onChange={handleValidInput} textHelp={inputLoginHelp}/>
+          <Input type='password' name='password' label={'Пароль'} onChange={handleValidInput} textHelp={inputPasswordHelp}/>
 
           <Button type='submit' className='container-fluid form-register__button-register'>
             Зарегистрировать пациента

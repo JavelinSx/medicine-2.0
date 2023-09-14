@@ -1,7 +1,96 @@
 .input__label{
-
+    position: relative;
     border-radius: 5%;
+    display: flex;
 }
 .form-floating > label{
     color: $label-input-color;
+}
+
+.input__help-button{
+    position: absolute;
+    right: 16px;
+    top: 18px;
+    border: none;
+    background-color: inherit;
+    fill-opacity: 0.5;
+    transition: 0.3s;
+    padding: 0;
+    height: 23px;
+    width: 23px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    z-index: 101;
+    
+    &:hover{
+        fill-opacity: 1;
+    }
+    
+}
+
+.input__help-message{
+    position: absolute;
+    right: 8px;
+    bottom: 30px;
+    font-size: 0.7rem;
+    width: 260px;
+    background-color: var(--bs-gray-400);
+    z-index: 102;
+    padding: .7rem;
+    padding-left: 1.5rem;
+    border-radius: 0.4rem;
+    opacity: 1;
+    pointer-events: all;
+    transition: .6s;
+    &::after, &::before {
+        content: '';
+        position: absolute;
+        background: inherit;
+        right: 9px;
+        bottom: -2px;
+        width: 20px; 
+        height: 20px;
+        z-index: -1; /* Прячем за основным блоком */
+        transform: rotate(45deg); /* Поворачиваем на 45º */
+        -webkit-transform: rotate(45deg);
+        pointer-events: none;
+       }
+       &::before {
+        z-index: 1; /* Накладываем поверх, чтобы скрыть следы тени */
+       }
+}
+
+.input__help-message-hide{
+    pointer-events: none;
+    padding: .7rem;
+    padding-left: 1.5rem;
+    border-radius: 0.4rem;
+    position: absolute;
+    right: 8px;
+    bottom: 30px;
+    width: 260px;
+    font-size: .7rem;
+    opacity: 0;
+    transition: .4s;
+}
+@media (max-width: 550px) and (min-width: 320px) {
+    .input__help-message {
+      width: 180px;
+    }
+    .input__help-message-hide{
+        width: 180px;
+    }
+  }
+  @media (max-width: 100vw) and (min-width: 550px) {
+    .input__help-message {
+        width: 260px;
+    }
+    .input__help-message-hide{
+        width: 260px;
+    }
+  }
+.input__error{
+    position: absolute;
 }
