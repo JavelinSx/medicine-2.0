@@ -29,6 +29,27 @@
     }
     
 }
+.input__password-show-button{
+    position: absolute;
+    right: 44px;
+    top: 18px;
+    border: none;
+    background-color: inherit;
+    fill-opacity: 0.5;
+    transition: 0.3s;
+    padding: 0;
+    height: 23px;
+    width: 23px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    z-index: 101;
+    
+    &:hover{
+        fill-opacity: 1;
+    }
+}
 
 .input__help-message{
     position: absolute;
@@ -93,4 +114,16 @@
   }
 .input__error{
     position: absolute;
+}
+.input__help-message-item{
+    color: black;
+    transition: color .6s;
+}
+.input__help-message-item_error{
+    color: red;
+    transition: color .6s;
+}
+.input__help-message-item_verify{
+    color: green;
+    transition: color .6s;
 }

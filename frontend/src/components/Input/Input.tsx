@@ -1,61 +1,144 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { FloatingLabel } from 'react-bootstrap'
-import { PatchQuestion } from 'react-bootstrap-icons'
+import { PatchQuestion, EyeFill } from 'react-bootstrap-icons'
+import TooltipItem from '../TooltipItem/TooltipItem';
+
 interface InputProps {
   type: string;
   name: string;
   label: string;
-  textHelp?: string[] | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  passwordShowOn?: boolean;
 }
 
 interface InputSelectProps extends InputProps {
   value: string;
   classInputSelect: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<InputProps> = ({ type, name, label, textHelp = null, onChange }) => {
+interface InputToolTip extends InputProps {
+  tooltipValidate: {
+    text: string;
+    pattern: RegExp;
+  }[];
+  results: (results:boolean[]) => void;
+}
+
+interface TooltipItemData {
+  text: string;
+  pattern: RegExp;
+}
+
+const Input: FC<InputToolTip> = ({ type, name, label, tooltipValidate, results, passwordShowOn = false}) => {
+  const [value, setValue] = useState('')
   const [isHelpMessage, setIsHelpMessage] = useState(false);
+  const [validationResults, setValidationResults] = useState<boolean[]>(new Array(tooltipValidate.length).fill(false));
+  const [onFocus, setOnFocus] = useState(false)
+  const [passwordShow, setPasswordShow] = useState(false)
+  const [isReadOnly, setIsReadOnly] = useState(true);
+
+
+  useEffect(() => {
+    results(validationResults)
+  },[results, validationResults])
+
+  const checkPattern = (value: string, pattern: RegExp): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const isMatch = pattern.test(value);
+      resolve(isMatch);
+    });
+  };
+
+  const validateAllTooltipItems = useCallback(async (value: string, tooltipData: TooltipItemData[]): Promise<void> => {
+    const promises = tooltipData.map((item) => checkPattern(value, item.pattern));
+    const results = await Promise.all(promises);
+    setValidationResults(results)
+  },[]);
 
   const handleHelpMessageShow = useCallback(() => {
-    setIsHelpMessage(true)
-    console.log('hello1')
-  }, []);
-
+      setIsHelpMessage(true)
+    }, []);
+  
   const handleHelpMessageHide = useCallback(() => {
-    setIsHelpMessage(false);
-    console.log('hello2')
-  }, []);
+      setIsHelpMessage(false);
+    }, []);
 
+  const handleOnChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+
+    setValue(e.target.value)
+    await validateAllTooltipItems(newValue, tooltipValidate);
+  },[tooltipValidate, validateAllTooltipItems])
+
+  const handleTooltipShow = useCallback(() => {
+    setIsReadOnly(false)
+    setOnFocus(true)
+    setIsHelpMessage(true)
+  },[])
+  const handleTooltipHide = useCallback(() => {
+    setIsReadOnly(true)
+    setOnFocus(false)
+    setIsHelpMessage(false)
+  },[])
+  const handleShowPassword = useCallback(() => {
+    setPasswordShow(true)
+  },[])
+  const handleHidePassword = useCallback(() => {
+    setPasswordShow(false)
+  },[])
+
+  
   return (
     <FloatingLabel label={label} className='mb-3 input__label'>
       <input
-        type={type}
+        type={passwordShow ? 'text' : type}
         name={name}
         placeholder={label}
-        onChange={onChange}
         className='form-control'
+        onChange={handleOnChange}
+        onFocus={handleTooltipShow}
+        onBlur={handleTooltipHide}
+        readOnly={isReadOnly}
       />
-      {
-        textHelp ? 
-        <>
+        {
+          passwordShowOn && 
           <div
-          className='input__help-button'
-          onMouseEnter={handleHelpMessageShow}
-          onMouseLeave={handleHelpMessageHide}
+            className='input__password-show-button'
+            onMouseDown={handleShowPassword}
+            onMouseUp={handleHidePassword}
           >
-            <PatchQuestion />
-          </div>
-          <ul className={isHelpMessage ?'input__help-message':'input__help-message-hide'}>
-          {textHelp?.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-          </ul>
-        </>
-        :
-        null
-      }
-      
+          <EyeFill />
+        </div>
+        }
+        {
+          tooltipValidate.length!==0 ? (
+            <>
+              <div
+                className='input__help-button'
+                onMouseEnter={onFocus ? ()=>{} : handleHelpMessageShow}
+                onMouseLeave={onFocus ? ()=>{} : handleHelpMessageHide}
+              >
+                <PatchQuestion />
+              </div>
+              <ul className={isHelpMessage ?'input__help-message':'input__help-message-hide'}>
+                {
+                  tooltipValidate.map((item, index) => (
+                    <TooltipItem
+                      key={index}
+                      value={value}
+                      pattern={item.pattern}
+                      text={item.text}
+                      isValid={validationResults[index]}
+                      checkPattern={checkPattern}
+                    />
+                  ))
+                }
+              </ul>
+            </>
+
+          ) : null
+        }
+          
       <div className='input__error'></div>
     </FloatingLabel>
   );

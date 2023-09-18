@@ -18,7 +18,7 @@ const initialState: AuthStatePatient = {
   patientData: null,
 };
 
-export const fetchAuthPatient = createAsyncThunk('auth/patient', async (data: AuthData) => {
+export const fetchAuthPatient = createAsyncThunk('auth/patient', async (data: any) => {
   return MainApi.loginPatient(data);
 });
 
@@ -57,4 +57,6 @@ export const authPatientSlice = createSlice({
   },
 });
 
-export default authPatientSlice.reducer;
+const authPatientReducer = authPatientSlice.reducer; // Явно указываем тип
+
+export default authPatientReducer;

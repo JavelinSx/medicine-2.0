@@ -15,7 +15,6 @@ const Select: FC<SelectProps> = ({name, labelTitle, optionsSelect, currentSelect
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log(select)
     const event = {
       target: { name: 'gender', value: select.toString() },
     } as React.ChangeEvent<HTMLInputElement>;
@@ -31,7 +30,7 @@ const Select: FC<SelectProps> = ({name, labelTitle, optionsSelect, currentSelect
       <label className='select-label'>{labelTitle}</label>
       <InputSelect classInputSelect='select-value' type='text' label='' name={name} value={optionsSelect[select].label} onChange={onChangeSelect}/>
       {/* <input className='select-value' value={optionsSelect[select].label} /> */}
-      <ul className={open? 'form-select__container-list' : 'form-select__container-list form-select__container-list-show'}>
+      <ul className={open? 'form-select__container-list form-select__container-list-show' : 'form-select__container-list'}>
         {optionsSelect.map((item, index) => (
           <li key={index} className='select-span-item' onClick={() => setSelect(index)}>
             {item.label}
