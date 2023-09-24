@@ -1,32 +1,32 @@
+import {selectOptions, RegisterPatient, RegisterProps } from '../app/types'
+
 export const urlDev = 'http://localhost:3001';
 
-export interface OptionSelectElem {
-  gender: string;
-  label: string;
-}
-export const optionsGender: OptionSelectElem[] = [
+export const optionsGender: selectOptions[] = [
   {
-    gender: 'male',
+    value: 'male',
     label: 'Муж.',
   },
   {
-    gender: 'famale',
+    value: 'famale',
     label: 'Жен.',
   },
 ];
 
-export interface ValidationRules {
-  patternDate: RegExp;
-  patternPassword: RegExp;
-  patternMinSymbol2: RegExp;
-  patternMinSymbol4: RegExp;
-  patternMinSymbol8: RegExp;
-  patternMaxSymbol16: RegExp;
-  patternMaxSymbol36: RegExp;
-  patternRUText: RegExp;
-  patternENGText: RegExp;
-  patternRegistr: RegExp;
-};
+export const optionsStaff: selectOptions[] = [
+  {
+    value:'doctor',
+    label:'Врач',
+  },
+  {
+    value:'nurse',
+    label:'Медсестра',
+  },
+  {
+    value:'registrator',
+    label:'Регистратор',
+  },
+]
 
 export const validateRules = {
   patternDate : /^\d{2}\.\d{2}\.\d{4}$/,
@@ -79,6 +79,37 @@ export const tooltipValidate = {
     text: 'Используйте заглавные буквы и символы, для больше безопасности',
     pattern: validateRules.patternDifferentSymbol,
   },
+}
+
+export const updatedFormDataForPatient: RegisterPatient = {
+  surName: '',
+  name: '',
+  middleName: '',
+  role: 'patient',
+  login: '',
+  password: '',
+  gender: '',
+  dateBirthday: '',
+};
+
+export const updatedFormDataForStaff: RegisterProps = {
+  surName: '',
+  name: '',
+  middleName: '',
+  role: '',
+  login: '',
+  password: '',
+};
+
+export const selectOptionsPatientProps = {
+  selectInput: optionsGender, // Здесь передайте нужные опции
+  selectName: 'gender',
+  selectLabel: 'Выберите пол:',
+};
+export const selectOptionsStaffProps = {
+  selectInput: optionsStaff, // Здесь передайте нужные опции
+  selectName: 'role',
+  selectLabel: 'Выберите роль:',
 }
 
 

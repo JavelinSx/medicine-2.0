@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
-const patientSchema = new mongoose.Schema({
+const staffSchema = new mongoose.Schema({
     surName: {
         type: String,
     },
@@ -10,17 +10,10 @@ const patientSchema = new mongoose.Schema({
     middleName: {
         type: String,
     },
-    gender: {
-        type: String,
-        enum: ['male', 'famale']
-    },
-    dateBirthday: {
-        type: String,
-    },
     role: {
         type: String,
         required: true,
-        default: 'patient'
+        enum: ['doctor', 'nurse', 'registrator']
     },
     login: {
         type: String,
@@ -31,21 +24,26 @@ const patientSchema = new mongoose.Schema({
         type: String,
         required: true,
         select: false,
-    }
+    },
+    canDelete: {
+        type: Boolean,
+        default: false, // Устанавливаем значение по умолчанию в false
+    },
 })
 
-patientSchema.statics.findUserByCredentials = function findPatient(login, password) {
-    return this.findOne({ login }).select('+password')
-        .then((patient) =>
+staffSchema.statics.findUserByCredentials = function findStaff(login, password, role) {
+    return this.findOne({ login, role }).select('+password')
+        .then((staff) =>
             bcrypt
-                .compare(password, patient.password)
+                .compare(password, staff.password)
                 .then((matched) => {
                     if (!matched) {
                         return Promise.reject(new Error('Ошибка авторизации'))
                     }
-                    return patient;
+                    staff.role!=='doctor' ? staff.canDelete=false : staff.canDelete=true
+                    return staff;
                 })
         )
 }
 
-module.exports = mongoose.model('patient', patientSchema)
+module.exports = mongoose.model('staff', staffSchema)

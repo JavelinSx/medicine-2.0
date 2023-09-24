@@ -5,11 +5,12 @@ import { useAppDispatch } from '../../app/hooks';
 import { fetchAuthPatient } from '../../features/authPatient';
 import {Input} from '../Input/Input';
 import {tooltipValidate} from '../../utils/constant';
-interface FormAuthProps {}
+import { AuthData } from '../../app/types';
+interface FormAuthPatientProps {}
 
-const FormAuth: FC<FormAuthProps> = () => {
+const FormAuthPatient: FC<FormAuthPatientProps> = () => {
   const dispatch = useAppDispatch();
-  const [validationResults, setValidationResults] = useState<boolean[]>(new Array(4).fill(false)); // здесь необходимо указать количество input используемых в форме
+  const [validationResults, setValidationResults] = useState<boolean[]>(new Array(2).fill(false)); // здесь необходимо указать количество input используемых в форме
   const [buttonSbtEnabled, setButtonSbtEnabled] = useState(false)
 
   useEffect(() => {
@@ -24,11 +25,10 @@ const FormAuth: FC<FormAuthProps> = () => {
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const updatedFormData: Record<string, string> = {};
-
-    formData.forEach((value, key) => {
-      updatedFormData[key] = value as string;
-    });
+    const updatedFormData: AuthData = {
+      login: formData.get('login') as string,
+      password: formData.get('password') as string,
+    };
 
     dispatch(fetchAuthPatient(updatedFormData));
   };
@@ -59,4 +59,4 @@ const FormAuth: FC<FormAuthProps> = () => {
   );
 };
 
-export default FormAuth;
+export default FormAuthPatient;

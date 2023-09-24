@@ -1,21 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useAppDispatch } from '../../app/hooks';
-import { fetchRegisterPatient, } from '../../features/authPatient';
 import {Input, InputSelect} from '../Input/Input';
-import {tooltipValidate } from '../../utils/constant';
-import {selectOptions, RegisterPatient} from '../../app/types'
-
-interface FormRegisterPatientProps {
+import {tooltipValidate, optionsStaff} from '../../utils/constant';
+import {selectOptions, RegisterProps} from '../../app/types'
+import { fetchRegisterStaff } from '../../features/authStaff';
+import {searchByLabel, searchByValue} from '../../utils/utils'
+interface FormRegisterStaffProps {
   selectOptionsProps: {
     selectInput: selectOptions[];
     selectName: string;
     selectLabel: string;
   }
-  data: RegisterPatient  
+  data: RegisterProps 
 }
 
-const FormRegisterPatient: FC<FormRegisterPatientProps> = ({selectOptionsProps, data}) => {
+const FormRegisterStaff: FC<FormRegisterStaffProps> = ({selectOptionsProps, data}) => {
   const dispatch = useAppDispatch();
   const [selectValue, setSelectValue] = useState('');
   const [validationResults, setValidationResults] = useState<boolean[]>(new Array(4).fill(false)); // здесь необходимо указать количество input используемых в форме
@@ -33,19 +33,19 @@ const FormRegisterPatient: FC<FormRegisterPatientProps> = ({selectOptionsProps, 
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const updatedData: RegisterPatient = { ...data };
+    const updatedData: RegisterProps = { ...data };
 
     formData.forEach((value, key) => {
-      updatedData[key as keyof RegisterPatient] = value as string; // Приводим к нужным типам
+      updatedData[key as keyof RegisterProps] = value as string; // Приводим к нужным типам
     });
-    updatedData.gender=selectValue
-    
-    dispatch(fetchRegisterPatient(updatedData))
+    updatedData.role=selectValue
+
+    dispatch(fetchRegisterStaff(updatedData))
   };
   
 
   const handleSelectValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectValue(e.target.value);
+    setSelectValue(searchByLabel(e.target.value, optionsStaff));
   };
 
 
@@ -82,15 +82,8 @@ const FormRegisterPatient: FC<FormRegisterPatientProps> = ({selectOptionsProps, 
             label={selectOptionsProps.selectLabel}
             optionsSelect={selectOptionsProps.selectInput}
             onChangeSelect={handleSelectValue}
-          />        
-
-          <Input 
-            type='date' 
-            name='dateBirthday' 
-            label={'Дата рождения'} 
-            tooltipValidate={[]} 
-            results={updateValidationResults}
           />
+
           <Input 
             type='text' 
             name='login' 
@@ -115,4 +108,4 @@ const FormRegisterPatient: FC<FormRegisterPatientProps> = ({selectOptionsProps, 
   );
 };
 
-export default FormRegisterPatient;
+export default FormRegisterStaff;

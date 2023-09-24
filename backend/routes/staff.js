@@ -1,25 +1,25 @@
 const router = require('express').Router()
 const {
-    getPatient,
-    getPatients,
-    registerPatient,
-    loginPatient
-} = require('../controllers/patients')
+    getStaffOnce,
+    getStaffAll,
+    registerStaff,
+    loginStaff
+} = require('../controllers/staff')
 
 const { auth } = require('../middlewares/auth')
 
 const { celebrate } = require('celebrate')
 
-const { patientRegisterValidation, patientLoginValidation, patientAuthValidation } = require('../utils/schemaValidationPatient')
+const { staffRegisterValidation, staffLoginValidation, staffAuthValidation } = require('../utils/schemaValidationStaff')
 
-router.post('/signin', celebrate(patientLoginValidation), loginPatient)
-router.post('/register', celebrate(patientRegisterValidation), registerPatient)
-router.use(auth, celebrate(patientAuthValidation))
+router.post('/signin', celebrate(staffLoginValidation), loginStaff)
+router.post('/register', celebrate(staffRegisterValidation), registerStaff)
+router.use(auth, celebrate(staffAuthValidation))
 
 
 
-router.get('/:id', getPatient)
-router.get('/all', getPatients)
+router.get('/:id', getStaffOnce)
+router.get('/all', getStaffAll)
 
 router.post('/signout', (req, res, next) => {
     res.clearCookie('token').send({ logout: "успешный выход" })

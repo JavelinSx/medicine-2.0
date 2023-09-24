@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RegisterPatient, AuthData } from '../app/types';
 import MainApi from '../utils/Api';
 
@@ -18,13 +18,14 @@ const initialState: AuthStatePatient = {
   patientData: null,
 };
 
-export const fetchAuthPatient = createAsyncThunk('auth/patient', async (data: any) => {
+export const fetchAuthPatient = createAsyncThunk('auth/patient', async (data: AuthData) => {
   return MainApi.loginPatient(data);
 });
 
-export const fetchRegisterPatient = createAsyncThunk('register/patient', async (data: any) => {
+export const fetchRegisterPatient = createAsyncThunk('register/patient', async (data: RegisterPatient) => {
   return MainApi.registerPatient(data);
 });
+
 
 export const authPatientSlice = createSlice({
   name: 'authPatient',

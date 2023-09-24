@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import React from 'react';
-import FormAuth from '../FormAuth/FormAuth';
+import FormAuthPatient from '../FormAuthPatient/FormAuthPatient';
 interface LoginProps {}
 
 const Login: FC<LoginProps> = () => {
   return (
     <React.Fragment>
-      <FormAuth></FormAuth>
+      <FormAuthPatient></FormAuthPatient>
     </React.Fragment>
   );
 };
