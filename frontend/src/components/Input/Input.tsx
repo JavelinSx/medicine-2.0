@@ -65,7 +65,6 @@ const Input: FC<InputTooltipsProps> = React.memo(
       setIsHelpMessage(true)
     },[])
     const handleTooltipHide = useCallback(() => {
-
       setOnFocus(false)
       setIsHelpMessage(false)
     },[])

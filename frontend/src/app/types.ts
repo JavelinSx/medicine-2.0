@@ -15,7 +15,10 @@ export interface RegisterProps {
 export interface RegisterPatient extends RegisterProps {
   gender: string ;
   dateBirthday: string;
+<<<<<<< HEAD
   files: string[];
+=======
+>>>>>>> 2561db0dbc837b37ae905716164a4ddef4331a38
 }
 
 export interface Personal {
