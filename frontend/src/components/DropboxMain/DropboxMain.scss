@@ -1,0 +1,45 @@
+.dropbox{
+    display: flex;
+    min-height: 5rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.dropbox-images{
+    align-self: flex-start;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.dropbox-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    cursor: pointer;
+    border-radius: var(--bs-border-radius);
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0px 0px 5px 5px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 0px 5px 5px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 5px 5px rgba(34, 60, 80, 0.2);
+    transition: .3s;
+    &:hover{
+        transform: scale(0.993);
+    }
+}
+.dropbox-label-text{
+    text-align: center;
+}
+@media (max-width: 550px) and (min-width: 320px) {
+    .dropbox-label-text{
+        font-size: .7rem;
+    }
+}
+@media (max-width: 100vw) and (min-width: 550px) {
+    .dropbox-label-text{
+        font-size: 1rem;
+    }
+}

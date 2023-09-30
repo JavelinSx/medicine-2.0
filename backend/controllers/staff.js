@@ -10,11 +10,12 @@ const { NODE_ENV, JWT_PROD } = process.env
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { JWT_DEV } = require('../utils/constant')
-const Patient = require('../models/patient')
+const Staff = require('../models/staff');
+const PermissionError = require('../errors/permission_error');
 
-module.exports.loginPatient = (req, res, next) => {
-    const { login, password } = req.body;
-    Patient.findUserByCredentials(login, password)
+module.exports.loginStaff = (req, res, next) => {
+    const { login, password, role } = req.body;
+    Staff.findUserByCredentials(login, password, role)
         .then((user) => {
             const token = jwt.sign(
                 {
@@ -29,17 +30,14 @@ module.exports.loginPatient = (req, res, next) => {
                 sameSite: 'none',
                 secure: true,
             })
-                .send({
-                    _id: user._id,
-                    login: user.login,
-                    role: user.role,
-                    name: user.name,
-                    surName: user.surName,
-                    middleName: user.middleName,
-                    gender: user.gender,
-                    dateBirthday: user.dateBirthday,
-                    files: user.files,
-                })
+            .send({
+                _id: user._id,
+                login: user.login,
+                role: user.role,
+                name: user.name,
+                surName: user.surName,
+                middleName: user.middleName,
+            })
         })
         .catch(() => {
             next(new BadAuthError(ERRORS_MESSAGE.badAuth.messageUncorrectedData))
@@ -50,10 +48,10 @@ module.exports.logout = (req, res) => {
     res.clearCookie('token')
 }
 
-module.exports.registerPatient = (req, res, next) => {
-    const { login, password, surName, name, middleName, gender, dateBirthday, files } = req.body
+module.exports.registerStaff = (req, res, next) => {
+    const { login, password, surName, name, middleName, role } = req.body
     return bcryptjs.hash(password, 10)
-        .then((hash) => Patient.create({ login, password: hash, surName, name, middleName, gender, dateBirthday, files }))
+        .then((hash) => Staff.create({ login, password: hash, surName, name, middleName, role }))
         .then((user) => {
             res.send({
                 login: user.login,
@@ -61,9 +59,7 @@ module.exports.registerPatient = (req, res, next) => {
                 surName: user.surName,
                 name: user.name,
                 middleName: user.middleName,
-                gender: user.gender,
-                dateBirthday: user.dateBirthday,
-                files: user.files
+                role: user.role,
             })
         })
         .catch((err) => {
@@ -77,45 +73,46 @@ module.exports.registerPatient = (req, res, next) => {
         })
 }
 
-module.exports.getPatient = (req, res, next) => {
-    const {id} = req.params
-    Patient.findOne({ id })
+module.exports.getStaffOnce = (req, res, next) => {
+    Staff.findOne({ _id: req.user._id, role: req.user.role })
         .orFail(new NotFoundError(ERRORS_MESSAGE.notFound.messageSearchUser))
-        .then((patient) => {
-            res.send(patient)
+        .then((staff) => {
+            res.send(staff)
         })
         .catch((err) => next(err))
 }
 
-module.exports.getPatients = (req, res, next) => {
-    Patient.find({})
+module.exports.getStaffAll = (req, res, next) => {
+    Staff.find({})
         .orFail(new NotFoundError(ERRORS_MESSAGE.notFound.messageSearchUsers))
-        .then((user) => {
-            res.send(user)
+        .then((staff) => {
+            res.send(staff)
         })
         .catch((err) => next(err))
 }
 
-module.exports.updatePatient = (req, res, next) => {
-    const { surName, name, middleName, gender, dateBirthday, files } = req.body;
-    Patient.findByIdAndUpdate(
+module.exports.updateStaff = (req, res, next) => {
+    const { surName, name, middleName } = req.body;
+    Staff.findByIdAndUpdate(
         req.params.id,
-        { surName, name, middleName, gender, dateBirthday, files },
+        { surName, name, middleName },
         {
             new: true,
             runValidators: true,
         }
     )
         .orFail(new NotFoundError(ERRORS_MESSAGE.notFound.messageSearchUser))
-        .then((user) => {
-            res.send(user)
+        .then((staff) => {
+            res.send(staff)
         })
         .catch((err) => next(err))
 }
 
-module.exports.deletePatient = (req, res, next) => {
+module.exports.deleteStaff = (req, res, next) => {
     const { id } = req.params
-    Patient.findByIdAndRemove(id)
+    const { role } = req.body
+    role==='doctor' ?
+    Staff.findByIdAndRemove(id)
         .orFail(new NotFoundError(ERRORS_MESSAGE.notFound.messageSearchUser))
         .then((user) => {
             res.send(user)
@@ -125,5 +122,7 @@ module.exports.deletePatient = (req, res, next) => {
                 return next(new BadRequestError(ERRORS_MESSAGE.badRequest.messageUncorrectedData));
             }
             return next(err);
-        });
+        })
+    : 
+    next(new PermissionError(ERRORS_MESSAGE.permissionConfilct.messageDefault))
 }

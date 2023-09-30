@@ -1,8 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import authPatientSlice from '../features/authPatient';
+import  authStaffSlice  from '../features/authStaff';
+import  getPatientSlice  from '../features/getPatient';
+import toolTipReducer from '../features/handlers/toolTip';
 export const store = configureStore({
   reducer: {
-    authPatient: authPatientSlice,
+    authPatientReducer: authPatientSlice,
+    authStaffReducer: authStaffSlice,
+    getPatientReducer: getPatientSlice,
+    toolTipReducer: toolTipReducer,
   },
 });
 

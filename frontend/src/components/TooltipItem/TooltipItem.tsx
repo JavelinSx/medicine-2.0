@@ -1,46 +1,24 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 
 interface TooltipItemProps {
-    value: string;
-    pattern: RegExp;
     text: string;
 }
 
 interface TooltipItemData extends TooltipItemProps {
-    isValid: boolean;
-    checkPattern: (value: string, pattern: RegExp) => Promise<boolean>;
+    isValid?: boolean;
   }
 
-const TooltipItem: FC<TooltipItemData> = ({value, pattern, text, isValid, checkPattern}) => {
-    const [isVerify, setIsVerify] = useState(false)
+const TooltipItem: FC<TooltipItemData> = ({text, isValid}) => {
     const [styleClass, setStyleClass] = useState('input__help-message-item')
-
-
-    const genereteStyleClass = useCallback(() => {
-        if (isValid) {
-            setStyleClass('input__help-message-item_verify');
-        } else {
-            setStyleClass('input__help-message-item_error');
-        }
-    }, [isValid]);
-
     useEffect(() => {
-        const checkValuePattern = async () => {
-            if (value.length > 0) {
-                const isPatternValid = await checkPattern(value, pattern);
-                if (isPatternValid) {
-                    genereteStyleClass();
-                } else {
-                    genereteStyleClass();
-                }
-            } else {
-                setStyleClass('input__help-message-item');
-            }
-        };
-    
-        checkValuePattern();
-    }, [checkPattern, genereteStyleClass, pattern, value]);
+      console.log(isValid,'isValid')
+        if (isValid) {
+          setStyleClass('input__help-message-item_verify');
+        } else {
+          setStyleClass('input__help-message-item_error');
+        }
+      }, [isValid, setStyleClass]);
 
     return (<li className={styleClass}>{text}</li>);
 }

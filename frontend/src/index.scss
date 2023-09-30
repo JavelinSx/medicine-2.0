@@ -19,13 +19,25 @@ button,
 span {
   font-family: 'Lato-light', sans-serif;
 }
+a {
+  text-decoration: none; 
+  color: inherit; 
+  cursor: pointer; 
+  opacity: .8;
+  transition: .3s;
+}
+a:hover{
+  opacity: 1;
+}
 
 .form-floating > label {
   transition: 0.3s;
 }
 
 @import './components/App/App.scss';
-@import './components/FormAuth/FormAuth.scss';
+@import './components/FormAuthPatient/FormAuthPatient.scss';
 @import './components/FormRegisterPatient/FormRegisterPatient.scss';
-@import './components/Select//Select.scss';
 @import './components/Input/Input.scss';
+@import './components/DropboxMain/DropboxMain.scss';
+@import './components/Images/Image.scss';
+@import './components/FormUpdatePatient/FormUpdatePatient.scss';

@@ -1,4 +1,4 @@
-const dbPath = 'mongodb://localhost:27017/spb-medicine'
+const dbPath = 'mongodb://127.0.0.1:27017/spb-medicine'
 const { PORT = 3001 } = process.env;
 const mongoose = require('mongoose');
 async function connected(app) {

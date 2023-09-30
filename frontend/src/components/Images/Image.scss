@@ -1,0 +1,26 @@
+.image-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.image-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.image-prepare{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.image-delete-button{
+    background-color: inherit;
+    border: none;
+}
+.btn-close{
+    transition: .3s;
+}

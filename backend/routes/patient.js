@@ -3,17 +3,23 @@ const {
     getPatient,
     getPatients,
     registerPatient,
-    loginPatient
+    loginPatient,
+    updatePatient
 } = require('../controllers/patients')
-
+const handleFileUpload = require('../middlewares/multer')
 const { auth } = require('../middlewares/auth')
 
 const { celebrate } = require('celebrate')
 
-const { patientRegisterValidation, patientLoginValidation, patientAuthValidation } = require('../utils/shemaValidationPatient')
+const { patientRegisterValidation, patientLoginValidation, patientAuthValidation, patientUpdateValidation } = require('../utils/schemaValidationPatient')
+
+
 
 router.post('/signin', celebrate(patientLoginValidation), loginPatient)
 router.post('/register', celebrate(patientRegisterValidation), registerPatient)
+router.get('/get/:id', getPatient)
+router.get('/get-all/', getPatients)
+router.post('/update/:id', celebrate(patientUpdateValidation), handleFileUpload, updatePatient)
 router.use(auth, celebrate(patientAuthValidation))
 
 

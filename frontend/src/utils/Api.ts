@@ -1,5 +1,5 @@
 import { urlDev } from './constant';
-import { RegisterPatient, AuthData } from '../app/types';
+import { RegisterProps, AuthData, AuthDataStaff } from '../app/types';
 
 export class Api {
   private _baseUrl: string;
@@ -27,9 +27,46 @@ export class Api {
     });
   }
 
-  registerPatient(data: any) {
+  getPatient(id: string){
+    return this._request({
+      url: `/patient/get/${id}`,
+      options: {
+        method: 'GET',
+        credential: 'include',
+        headers: this._headers,
+      },
+    });
+  }
+
+  registerPatient(data: RegisterProps) {
     return this._request({
       url: '/patient/register',
+      options: {
+        method: 'POST',
+        credential: 'include',
+        headers: this._headers,
+        body: JSON.stringify(data),
+      },
+    });
+  }
+
+  loginStaff(data: AuthDataStaff) {
+    const url = '/staff/signin'
+    return this._request({
+      url: url,
+      options: {
+        method: 'POST',
+        credential: 'include',
+        headers: this._headers,
+        body: JSON.stringify(data),
+      },
+    });
+  }
+
+  registerStaff(data: RegisterProps) {
+    const url = '/staff/register'
+    return this._request({
+      url: url,
       options: {
         method: 'POST',
         credential: 'include',
